@@ -1,0 +1,53 @@
+@import "../theme/variables";
+
+html {
+    font-size:                  14px;
+    -webkit-overflow-scrolling: auto;
+    
+    background:                 #222222;
+}
+
+body, button, input, select, textarea {
+    font-size:                  14px;
+    font-variant:               small-caps;
+    -webkit-overflow-scrolling: auto;
+}
+
+#app {
+    margin:    0;
+    max-width: 100%;
+}
+
+.field.is-floating-label .label:before {
+    display: none;
+}
+
+.is-valign-top { vertical-align: top !important; }
+.is-valign-middle { vertical-align: middle !important; }
+
+.has-color-primary { color: $primary; }
+.has-color-orange { color: orange; }
+.has-color-red { color: red; }
+.has-color-gray { color: $grey; }
+.has-color-green { color: green; }
+
+.has-font-size-xs { font-size: 0.65em; }
+.has-font-size-sm { font-size: 0.85em; }
+.has-font-size-lg { font-size: 1.25em; }
+.has-font-size-xl { font-size: 1.5em; }
+
+.button {
+    text-transform: capitalize;
+}
+
+.m-loading {
+    z-index: 10;
+}
+
+.js-clipboard {
+    cursor: pointer;
+}
+
+.tooltip {
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.8));
+}

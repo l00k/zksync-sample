@@ -1,0 +1,22 @@
+.g-page {
+    margin-bottom: 6rem;
+}
+
+.g-container {
+    @extend .container;
+
+    &--default {
+        margin-top: 6rem;
+    }
+}
+
+.g-mainmenu {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 20;
+    
+    a {
+        background: #363636;
+    }
+}

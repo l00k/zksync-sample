@@ -1,0 +1,70 @@
+@import "./variables";
+
+.card {
+    overflow: unset;
+}
+
+.panel {
+    box-shadow: none;
+    
+    .panel-block {
+        display: block;
+        padding: $panel-content-padding;
+        background: $grey-dark2;
+    }
+}
+
+.select {
+    select {
+        option {
+            color: $input-color;
+        }
+    }
+}
+
+.field {
+    &.is-floating-label {
+        .label {
+            filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 2px rgba(0,0,0, 0.5));
+        }
+    }
+}
+
+.control {
+    &.has-icons-left,
+    &.has-icons-right {
+        .select select {
+            padding-left: 2.5em;
+        }
+        
+        .icon {
+            margin: 0 4px;
+        }
+    }
+    
+    
+}
+
+.table {
+    background: none;
+}
+
+.b-table {
+    thead tr:first-child th {
+        position:   sticky;
+        top:        -1px;
+        z-index:    10;
+        
+        background: $grey-dark2;
+    }
+    
+    .checkbox-cell {
+        .b-checkbox.checkbox {
+            margin: 0;
+            
+            .control-label {
+                display: none;
+            }
+        }
+    }
+}
