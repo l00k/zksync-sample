@@ -1,26 +1,35 @@
 <template>
-    <b-collapse class="card"
-                animation="slide"
-                :open="open"
-                :aria-id="componentId"
+    <b-collapse
+        class="panel"
+        :class="{ [type]: true }"
+        animation="slide"
+        :open="open"
+        :aria-id="componentId"
     >
-        <div slot="trigger"
-             slot-scope="props"
-             class="card-header"
-             :aria-controls="componentId"
+        <div
+            slot="trigger"
+            slot-scope="props"
+            class="panel-heading"
+            :aria-controls="componentId"
         >
-            <div class="card-header-title" @click.stop>
-                <slot name="header">{{ title }}</slot>
-            </div>
-            <a
-                v-if="toggable"
-                class="card-header-icon"
+            <header
+                class="panel-heading-title is-justify-content-space-between"
+                @click.stop
             >
-                <b-icon pack="fas" :icon="props.open ? 'caret-down' : 'caret-up'"/>
-            </a>
+                <slot name="header">
+                    <span>{{ title }}</span>
+                </slot>
+
+                <a
+                    v-if="toggable"
+                    class="card-header-icon"
+                >
+                    <b-icon pack="fas" :icon="props.open ? 'caret-down' : 'caret-up'"/>
+                </a>
+            </header>
         </div>
 
-        <div class="card-content">
+        <div class="panel-block">
             <slot></slot>
         </div>
     </b-collapse>
@@ -36,13 +45,16 @@ export default class UiBlock
 {
 
     @Prop()
-    public title : String;
+    public title : string;
+
+    @Prop({ default: 'is-primary' })
+    public type : string;
 
     @Prop({ default: true })
-    public open : Boolean;
+    public open : boolean;
 
     @Prop({ default: false })
-    public toggable : Boolean;
+    public toggable : boolean;
 
 }
 </script>
