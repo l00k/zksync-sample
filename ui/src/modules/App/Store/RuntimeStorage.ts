@@ -32,7 +32,6 @@ export class RuntimeStorage
         
         this.context.state.initPromise = new Promise((resolve, reject) => {
             this.context.state.feeTokens = require('#/App/assets/tokens.json');
-            
             resolve();
         });
     }

@@ -29,13 +29,23 @@
                 </div>
 
                 <div
-                    class="mt-2"
+                    class="mt-2 is-flex is-align-items-start account-tags"
                 >
                     <b-tag
                         v-if="isOwner"
                         type="is-success"
+                        class="mr-2"
                     >OWNER
                     </b-tag>
+
+                    <b-taglist
+                        v-for="part of balances"
+                        attached
+                        class="mr-2"
+                    >
+                        <b-tag type="is-dark">{{ part.token.symbol }}</b-tag>
+                        <b-tag type="is-info">{{ part.balance }}</b-tag>
+                    </b-taglist>
                 </div>
             </div>
 
@@ -53,7 +63,7 @@ import { Inject } from '@inti5/object-manager';
 import { ethers } from 'ethers';
 import { Prop, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
-import { Contract } from 'zksync-web3';
+import { Contract, Web3Provider } from 'zksync-web3';
 
 
 const MetaMaskStore = namespace('MetaMask');
@@ -114,10 +124,29 @@ export default class DappInfo
         const owner = await this.contract.owner();
         this.isOwner = this.activeAccount.toLowerCase() == owner.toLowerCase();
 
+
+        const promises = [];
+        let i = 0;
+
+        this.balances = [];
         for (const token of this.feeTokens) {
-            const balanceInUnits = await this.dappProvider.signer.getBalance(token.address);
-            token.balance = ethers.utils.formatUnits(balanceInUnits, token.decimals);
+            const promise = new Promise<void>(resolve => {
+                setTimeout(async() => {
+                    const balanceInUnits = await this.dappProvider.signer.getBalance(token.address);
+                    const balance = Number(ethers.utils.formatUnits(balanceInUnits, token.decimals));
+
+                    this.balances.push({
+                        token,
+                        balance: balance.toFixed(3),
+                    });
+
+                    resolve();
+                }, 100 * ++i);
+            });
+            promises.push(promise);
         }
+
+        await Promise.all(promises);
 
         this.isReady = true;
     }
@@ -132,5 +161,10 @@ export default class DappInfo
 
     border:        solid 1px rgba(255, 255, 255, 0.5);
     border-radius: 4px;
+}
+.account-tags {
+    .tags {
+        margin-bottom: 0;
+    }
 }
 </style>

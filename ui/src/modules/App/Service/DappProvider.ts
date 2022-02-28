@@ -1,5 +1,5 @@
 import { Singleton } from '@inti5/object-manager';
-import { Contract, Provider, Signer, Web3Provider } from 'zksync-web3';
+import { Contract, Signer, Web3Provider } from 'zksync-web3';
 
 
 @Singleton()
@@ -8,15 +8,15 @@ export class DappProvider
     
     public signer : Signer;
     
-    public provider : Provider;
+    public provider : Web3Provider;
     
     public contracts : { [name : string] : Contract } = {};
     
     
-    public async initProvider (chainRpcUrl : string)
+    public async initProvider ()
     {
-        this.provider = new Provider(chainRpcUrl);
-        this.signer = (new Web3Provider(window.ethereum)).getSigner();
+        this.provider = new Web3Provider(window.ethereum);
+        this.signer = this.provider.getSigner();
     }
     
     public async initDapp (

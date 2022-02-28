@@ -39,6 +39,15 @@
                         :disabled="!isOwner"
                     >
                         <CreateTokenWizard
+                            v-if="isOwner"
+                            :contract="contract"
+                        />
+                    </b-tab-item>
+                    <b-tab-item
+                        label="Tokens for sale"
+                        icon="money-bill-wave"
+                    >
+                        <TokensForSale
                             :contract="contract"
                         />
                     </b-tab-item>
@@ -59,6 +68,7 @@ import { DappProvider } from '#/App/Service/DappProvider';
 import AccountInfo from '#/NFToken/Component/AccountInfo.vue';
 import CreateTokenWizard from '#/NFToken/Component/CreateTokenWizard.vue';
 import DappInfo from '#/NFToken/Component/DappInfo.vue';
+import TokensForSale from '#/NFToken/Component/TokensForSale.vue';
 import BaseComponent from '@inti5/app-frontend/Component/BaseComponent.vue';
 import { Component, Route } from '@inti5/app-frontend/Vue/Annotations';
 import { Config } from '@inti5/configuration';
@@ -74,9 +84,10 @@ const MetaMaskStore = namespace('MetaMask');
 @Route('/', 'index')
 @Component({
     components: {
+        DappInfo,
         AccountInfo,
         CreateTokenWizard,
-        DappInfo,
+        TokensForSale,
     }
 })
 export default class IndexPage
@@ -86,9 +97,6 @@ export default class IndexPage
     @Inject()
     public readonly dappProvider : DappProvider;
 
-
-    @Config('module.dapp.chainRpcUrl')
-    public readonly chainRpcUrl : string;
 
     @Config('module.dapp.targetChain')
     public readonly targetChain : number;
@@ -120,11 +128,11 @@ export default class IndexPage
         try {
             await this.$store.dispatch('MetaMask/connect');
 
-            await this.dappProvider.initProvider(this.chainRpcUrl);
+            await this.dappProvider.initProvider();
 
             this.contract = await this.dappProvider.initDapp(
                 'NFToken',
-                '0x9B71Cf8894816761b894AFd5562288810Ef5d933',
+                '0x236557F5A2Bea13A163136B0f92d6b2Ed5D2E805',
                 require('#/NFToken/assets/abi.json')
             );
 
@@ -198,7 +206,7 @@ export default class IndexPage
 
 <style lang="scss">
 .b-tabs .tab-content {
-    padding: 0;
+    padding:    0;
     margin-top: 1.5rem;
 }
 </style>

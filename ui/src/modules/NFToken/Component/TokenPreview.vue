@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-image">
             <Jdenticon
-                :value="token.features"
+                :value="token.features.toString()"
                 :size="128"
             />
         </div>
@@ -11,6 +11,15 @@
                 <div class="media-content">
                     <p class="title is-4">{{ token.name }}</p>
                     <p class="subtitle is-6">Fancy token</p>
+                    <div
+                        v-if="price"
+                        class="has-color-red has-text-right"
+                    >
+                        <b-taglist attached>
+                            <b-tag type="is-dark">ETH</b-tag>
+                            <b-tag type="is-info">{{ price }}</b-tag>
+                        </b-taglist>
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,6 +45,9 @@ export default class TokenPreview
 
     @Prop()
     public token : NftToken;
+
+    @Prop()
+    public price : string;
 
 }
 </script>

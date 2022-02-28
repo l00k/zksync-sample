@@ -9,7 +9,7 @@
                 <TxHandler
                     :contract="contract"
                     endpoint="mintForSale"
-                    :args="[ priceInEth, token.toApi() ]"
+                    :args="[ priceInEth, token ]"
                 >
                     <validate-provider
                         name="Name"
@@ -83,7 +83,6 @@
                 <TokenPreview
                     :token="token"
                 />
-
             </div>
         </div>
     </ui-block>
@@ -139,7 +138,7 @@ export default class CreateTokenWizard
     {
         this.token = new NftToken();
         this.token.name = 'Sample';
-        this.token.features = (1e9 + Math.round(Math.random() * (9e9 - 1))).toString();
+        this.token.features = 1e9 + Math.round(Math.random() * (9e9 - 1));
     }
 
 }

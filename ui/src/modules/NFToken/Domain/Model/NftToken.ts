@@ -5,16 +5,11 @@ export class NftToken
     
     public name : string = 'Noname';
     
-    public features : string = '0000000000';
+    public features : BigNumber | number = 0;
+    
+    public createdAt : BigNumber | number = 0;
     
     
-    public toApi () : any
-    {
-        return {
-            name: this.name,
-            features: BigNumber.from(Number(this.features)),
-            createdAt: 0,
-        };
-    }
+    public price ? : string = null;
     
 }

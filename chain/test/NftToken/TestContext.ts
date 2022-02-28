@@ -16,6 +16,12 @@ export type AccountState = BaseAccountState & {
     nfts : BigNumber[],
 };
 
+type Token = {
+    name : string,
+    features : BigNumber,
+    createdAt : BigNumber,
+}
+
 
 export class TestContext
     extends BaseTestContext
@@ -24,6 +30,8 @@ export class TestContext
     public nftToken : SampleToken;
     
     public accountsState : AccountMap<AccountState> = {};
+    
+    public tokens : Token[] = [];
     
     
     public async initAccounts ()
@@ -57,15 +65,19 @@ export class TestContext
     {
         await this.executeInSingleBlock(async() => {
             for (let i = 0; i < amount; ++i) {
+                const token : Token = {
+                    name: `Token #${i}`,
+                    features: BigNumber.from(i),
+                    createdAt: BigNumber.from(0),
+                };
+
+                this.tokens.push(token);
+            
                 await this.nftToken
                     .connect(this.ownerAccount)
                     .mint(
                         this.ownerAccount.address,
-                        {
-                            name: `Token #${i}`,
-                            features: i,
-                            createdAt: 0,
-                        }
+                        token
                     );
             }
         });
@@ -96,14 +108,4 @@ export class TestContext
         }
     }
     
-    public async displayDetails (label : string = 'details')
-    {
-        const block = await ethers.provider.getBlock('latest');
-        
-        console.log(
-            colors.red('### ' + label),
-        );
-        
-        console.log();
-    }
 }
