@@ -66,14 +66,14 @@
 <script lang="ts">
 import { DappProvider } from '#/App/Service/DappProvider';
 import AccountInfo from '#/NFToken/Component/AccountInfo.vue';
-import CreateTokenWizard from '#/NFToken/Component/CreateTokenWizard.vue';
 import DappInfo from '#/NFToken/Component/DappInfo.vue';
-import TokensForSale from '#/NFToken/Component/TokensForSale.vue';
-import BaseComponent from '@inti5/app-frontend/Component/BaseComponent.vue';
+import CreateTokenWizard from '#/NFToken/Component/Tabs/CreateTokenWizard.vue';
+import TokensForSale from '#/NFToken/Component/Tabs/TokensForSale.vue';
+import { BaseComponent } from '@inti5/app-frontend/Component';
 import { Component, Route } from '@inti5/app-frontend/Vue/Annotations';
 import { Config } from '@inti5/configuration';
 import { Inject } from '@inti5/object-manager';
-import { Watch } from 'vue-property-decorator';
+import * as Vue from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { Contract } from 'zksync-web3';
 
@@ -114,6 +114,7 @@ export default class IndexPage
     public isOk : boolean = false;
     public loadingMessage : string = 'Connecting to MetaMask';
 
+    @Vue.ProvideReactive('contract')
     public contract : Contract;
 
     public isOwner : boolean = false;
@@ -152,7 +153,7 @@ export default class IndexPage
         this.onAccountChange(this.activeAccount, true);
     }
 
-    @Watch('activeChain')
+    @Vue.Watch('activeChain')
     protected onChainChange (
         chainId : number,
         initial : boolean = false
@@ -175,7 +176,7 @@ export default class IndexPage
         }
     }
 
-    @Watch('activeAccount')
+    @Vue.Watch('activeAccount')
     protected async onAccountChange (
         activeAccount : string,
         initial : boolean = false

@@ -5,10 +5,10 @@
             class="placeholder"
         >
             <b-skeleton :animated="true" height="100px" />
-            <b-skeleton :animated="true" width="60%"/>
+            <b-skeleton :animated="true" width="60%" />
         </div>
 
-        <validate-observer
+        <ValidationObserver
             v-if="isReady"
             v-slot="{ handleSubmit, invalid }"
         >
@@ -51,22 +51,23 @@
                             :loading="isReloading || isProcessing"
                             :disabled="isReloading || isProcessing || invalid"
                             class="is-inline-block"
-                        >Submit
+                        >{{ submitText }}
                         </b-button>
                     </div>
                 </div>
             </form>
-        </validate-observer>
+        </ValidationObserver>
     </div>
 </template>
 
 <script lang="ts">
 import { FeeToken } from '#/App/Domain/Model/FeeToken';
 import { DappProvider } from '#/App/Service/DappProvider';
+import { BaseComponent } from '@inti5/app-frontend/Component';
 import { Inject } from '@/core/inti5/object-manager';
 import { Component } from '@inti5/app-frontend/Vue/Annotations';
 import { ethers } from 'ethers';
-import { Prop, Vue, Watch } from 'vue-property-decorator';
+import * as Vue from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { Contract } from 'zksync-web3';
 
@@ -76,21 +77,24 @@ const RuntimeStorage = namespace('RuntimeStorage');
 
 
 @Component()
-export default class Jdenticon
-    extends Vue
+export default class TxHandler
+    extends BaseComponent
 {
 
     @Inject()
     public dappProvider : DappProvider;
 
-    @Prop()
+    @Vue.InjectReactive()
     public contract : Contract;
 
-    @Prop()
+    @Vue.Prop()
     public endpoint : string;
 
-    @Prop()
+    @Vue.Prop()
     public args : any[];
+
+    @Vue.Prop({ default: 'Submit' })
+    public submitText : string;
 
 
     @RuntimeStorage.State('feeTokens')
@@ -107,7 +111,7 @@ export default class Jdenticon
     public feeAmount : string = null;
 
 
-    public async mounted()
+    public async mounted ()
     {
         await this.$store.dispatch('RuntimeStorage/init');
         this.isReady = true;
@@ -138,8 +142,8 @@ export default class Jdenticon
         this.isReloading = false;
     }
 
-    @Watch('selectedFeeToken')
-    protected onSelectedFeeTokenChange(token : FeeToken)
+    @Vue.Watch('selectedFeeToken')
+    protected onSelectedFeeTokenChange (token : FeeToken)
     {
         this.feeAmount = this.feeAmounts[token.symbol];
     }

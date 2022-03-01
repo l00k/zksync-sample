@@ -1,4 +1,6 @@
+import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import numbro from 'numbro';
+import Decimal from 'decimal.js';
 
 
 export function formatNumber (amount : number) : string
@@ -11,7 +13,12 @@ export function formatPercent (percent : number, format : string | numbro.Format
     return numbro(percent).format(format);
 }
 
-export function formatCoin (value : number, format : string | numbro.Format = {})
+export function parseRawCoin (value : BigNumberish, decimals : number = 18) : Decimal
+{
+    return (new Decimal(value.toString())).div(`1e${decimals}`);
+}
+
+export function formatCoin (value : Decimal, format : string | numbro.Format = {})
 {
     if (format instanceof Object) {
         format = {
@@ -21,7 +28,7 @@ export function formatCoin (value : number, format : string | numbro.Format = {}
         };
     }
     
-    return numbro(value).format(format);
+    return numbro(value.toString()).format(format);
 }
 
 export function unformatCoin (amountRaw : any, format : string | numbro.Format = {}) : number

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Component } from '@/core/app-frontend/Vue/Annotations';
+import { Component } from '@inti5/app-frontend/Vue/Annotations';
 import numbro from 'numbro';
 import { Prop, Watch } from 'vue-property-decorator';
 import BaseComponent from '../../BaseComponent.vue';

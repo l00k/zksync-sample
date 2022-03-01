@@ -57,11 +57,11 @@
 import Jdenticon from '#/App/Component/Common/Jdenticon.vue';
 import { FeeToken } from '#/App/Domain/Model/FeeToken';
 import { DappProvider } from '#/App/Service/DappProvider';
-import BaseComponent from '@inti5/app-frontend/Component/BaseComponent.vue';
+import { BaseComponent } from '@inti5/app-frontend/Component';
 import { Component } from '@inti5/app-frontend/Vue/Annotations';
 import { Inject } from '@inti5/object-manager';
 import { ethers } from 'ethers';
-import { Prop, Watch } from 'vue-property-decorator';
+import * as Vue from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { Contract, Web3Provider } from 'zksync-web3';
 
@@ -89,11 +89,11 @@ export default class DappInfo
     public dappProvider : DappProvider;
 
 
-    @Prop()
-    public isInitiated : boolean;
-
-    @Prop()
+    @Vue.InjectReactive('contract')
     public contract : Contract;
+
+    @Vue.Prop()
+    public isInitiated : boolean;
 
 
     @MetaMaskStore.State('activeAccount')
@@ -116,7 +116,7 @@ export default class DappInfo
         await this.loadAccount();
     }
 
-    @Watch('activeAccount')
+    @Vue.Watch('activeAccount')
     public async loadAccount ()
     {
         this.isReady = false;

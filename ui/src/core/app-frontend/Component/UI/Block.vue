@@ -1,45 +1,27 @@
 <template>
-    <b-collapse
+    <div
         class="panel"
         :class="{ [type]: true }"
-        animation="slide"
-        :open="open"
-        :aria-id="componentId"
     >
-        <div
-            slot="trigger"
-            slot-scope="props"
-            class="panel-heading"
-            :aria-controls="componentId"
-        >
-            <header
-                class="panel-heading-title is-justify-content-space-between"
-                @click.stop
-            >
+        <div class="panel-heading">
+            <div class="panel-heading-title is-justify-content-space-between">
                 <slot name="header">
                     <span>{{ title }}</span>
                 </slot>
-
-                <a
-                    v-if="toggable"
-                    class="card-header-icon"
-                >
-                    <b-icon pack="fas" :icon="props.open ? 'caret-down' : 'caret-up'"/>
-                </a>
-            </header>
+            </div>
         </div>
-
         <div class="panel-block">
             <slot></slot>
         </div>
-    </b-collapse>
+    </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from '@inti5/app-frontend/Vue/Annotations';
+import { Prop } from 'vue-property-decorator';
 import BaseComponent from '../BaseComponent.vue';
 
-@Component
+@Component()
 export default class UiBlock
     extends BaseComponent
 {
@@ -49,12 +31,6 @@ export default class UiBlock
 
     @Prop({ default: 'is-primary' })
     public type : string;
-
-    @Prop({ default: true })
-    public open : boolean;
-
-    @Prop({ default: false })
-    public toggable : boolean;
 
 }
 </script>

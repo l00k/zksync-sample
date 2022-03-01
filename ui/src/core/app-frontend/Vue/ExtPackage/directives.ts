@@ -1,5 +1,4 @@
+import Vue from 'vue';
 import { getDirective } from 'vue-debounce';
 
-export default {
-    debounce: getDirective()
-}
+Vue.directive('debounce', getDirective());

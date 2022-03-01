@@ -1,5 +1,5 @@
 <template>
-    <ui-block
+    <UiBlock
         title="Create token wizard"
     >
         <div class="columns">
@@ -7,11 +7,10 @@
                 <h1 class="title is-4">Create new</h1>
 
                 <TxHandler
-                    :contract="contract"
                     endpoint="mintForSale"
                     :args="[ priceInEth, token ]"
                 >
-                    <validate-provider
+                    <ValidationProvider
                         name="Name"
                         :rules="{ required: true, min: 4 }"
                         v-slot="{ errors }"
@@ -24,9 +23,9 @@
                         >
                             <b-input v-model="token.name"></b-input>
                         </b-field>
-                    </validate-provider>
+                    </ValidationProvider>
 
-                    <validate-provider
+                    <ValidationProvider
                         name="Features"
                         :rules="{
                             required: true,
@@ -47,9 +46,9 @@
                                 maxlength="10"
                             ></b-input>
                         </b-field>
-                    </validate-provider>
+                    </ValidationProvider>
 
-                    <validate-provider
+                    <ValidationProvider
                         name="Price"
                         :rules="{
                             required: true,
@@ -72,7 +71,7 @@
                                 maxlength="10"
                             ></b-numberinput>
                         </b-field>
-                    </validate-provider>
+                    </ValidationProvider>
 
                 </TxHandler>
             </div>
@@ -85,7 +84,7 @@
                 />
             </div>
         </div>
-    </ui-block>
+    </UiBlock>
 </template>
 
 <script lang="ts">
@@ -93,10 +92,10 @@ import Jdenticon from '#/App/Component/Common/Jdenticon.vue';
 import TxHandler from '#/App/Component/Common/TxHandler.vue';
 import TokenPreview from '#/NFToken/Component/TokenPreview.vue';
 import { NftToken } from '#/NFToken/Domain/Model/NftToken';
-import BaseComponent from '@inti5/app-frontend/Component/BaseComponent.vue';
+import { BaseComponent } from '@inti5/app-frontend/Component';
 import { Component } from '@inti5/app-frontend/Vue/Annotations';
 import { BigNumber, ethers } from 'ethers';
-import { Prop } from 'vue-property-decorator';
+import * as Vue from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { Contract } from 'zksync-web3';
 
@@ -116,7 +115,7 @@ export default class CreateTokenWizard
     extends BaseComponent
 {
 
-    @Prop()
+    @Vue.InjectReactive('contract')
     public contract : Contract;
 
 

@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import BaseComponent from '@inti5/app-frontend/Component/BaseComponent.vue';
+import { BaseComponent } from '@inti5/app-frontend/Component';
 import { Component } from '@inti5/app-frontend/Vue/Annotations/Component';
 
 @Component()

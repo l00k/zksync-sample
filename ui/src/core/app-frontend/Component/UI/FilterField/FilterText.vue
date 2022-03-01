@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { FilterConfig } from '@/core/app-frontend/Component/UI/FilterField/FilterBase.vue';
+import { FilterConfig } from '@inti5/app-frontend/Component/UI/FilterField/FilterBase.vue';
 import UiFilterBase from './FilterBase.vue';
 import { Component } from '../../../Vue/Annotations';
 import { Prop } from 'vue-property-decorator';

@@ -30,9 +30,9 @@
 </template>
 
 <script lang="ts">
-import BaseComponent from '@inti5/app-frontend/Component/BaseComponent.vue';
+import { BaseComponent } from '@inti5/app-frontend/Component';
 import { Component } from '@inti5/app-frontend/Vue/Annotations';
-import { Prop } from 'vue-property-decorator';
+import * as Vue from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { Contract } from 'zksync-web3';
 
@@ -45,12 +45,11 @@ export default class DappInfo
     extends BaseComponent
 {
 
-    @Prop()
+    @Vue.InjectReactive('contract')
     public contract : Contract;
 
     @MetaMaskStore.State('activeChain')
     public activeChain : number;
-
 
 }
 </script>

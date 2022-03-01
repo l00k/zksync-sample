@@ -10,20 +10,9 @@
                 :key="tokenWrap.tokenId"
                 class="is-flex is-flex-direction-column mr-4 mb-4"
             >
-                <TokenPreview
-                    :token="tokenWrap.token"
-                    :price="tokenWrap.price"
+                <TokenController
+                    :tokenWrap="tokenWrap"
                 />
-
-                <b-button
-                    type="is-success"
-                    class="mt-2"
-                    :loading="tokenWrap.buying"
-                    :disabled="tokenWrap.buying"
-                    @click="buyToken(tokenWrap)"
-                >
-                    Buy
-                </b-button>
             </div>
         </div>
 
@@ -37,18 +26,20 @@
 </template>
 
 <script lang="ts">
+import TokenController from '#/NFToken/Component/TokenController.vue';
 import TokenPreview from '#/NFToken/Component/TokenPreview.vue';
 import { NftToken } from '#/NFToken/Domain/Model/NftToken';
 import { NftTokenWrap } from '#/NFToken/Domain/Model/NftTokenWrap';
-import BaseComponent from '@inti5/app-frontend/Component/BaseComponent.vue';
+import { BaseComponent } from '@inti5/app-frontend/Component';
 import { Component } from '@inti5/app-frontend/Vue/Annotations';
 import { BigNumber, ethers } from 'ethers';
-import { Prop } from 'vue-property-decorator';
+import * as Vue from 'vue-property-decorator';
 import { Contract } from 'zksync-web3';
 
 
 @Component({
     components: {
+        TokenController,
         TokenPreview,
     }
 })
@@ -56,13 +47,13 @@ export default class TokensList
     extends BaseComponent
 {
 
-    @Prop()
+    @Vue.InjectReactive('contract')
     public contract : Contract;
 
-    @Prop()
+    @Vue.Prop()
     public account : string;
 
-    @Prop({ default: false })
+    @Vue.Prop({ default: false })
     public sales : boolean;
 
     public isLoading : boolean = false;
@@ -106,13 +97,6 @@ export default class TokensList
                     }
 
                     this.tokensOfPage[this.currentPage].push(tokenWrap);
-
-                    if (this.sales) {
-                        const price = await this.contract.tokenPrice(tokenId);
-                        const priceFormated = ethers.utils.formatUnits(price, 18);
-
-                        tokenWrap.price = priceFormated;
-                    }
                 }
                 catch (e) {
                     console.log(e);
@@ -131,8 +115,6 @@ export default class TokensList
         this.$set(tokenWrap, 'buying', true);
 
 
-
-        this.$set(tokenWrap, 'buying', false);
     }
 
 }

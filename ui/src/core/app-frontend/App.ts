@@ -113,39 +113,10 @@ export class App
     protected async loadVueExts ()
     {
         // from main
-        this.loadVueExtPackage(require('./Vue/ExtPackage').default);
+        require('./Vue/ExtPackage');
         
         // from modules
         const vueModuleExts = await this.moduleLoader.loadComponents([ 'Vue' ]);
-        
-        for (const vueModuleExt of vueModuleExts) {
-            if (isEmpty(vueModuleExt.default)) {
-                continue;
-            }
-            
-            this.loadVueExtPackage(vueModuleExt.default);
-        }
-    }
-    
-    protected loadVueExtPackage (vuePackage : any)
-    {
-        if (!isEmpty(vuePackage.components)) {
-            for (const key in vuePackage.components) {
-                Vue.component(key, vuePackage.components[key]);
-            }
-        }
-        
-        if (!isEmpty(vuePackage.directives)) {
-            for (const key in vuePackage.directives) {
-                Vue.directive(key, vuePackage.directives[key]);
-            }
-        }
-        
-        if (!isEmpty(vuePackage.filters)) {
-            for (const key in vuePackage.filters) {
-                Vue.filter(key, vuePackage.filters[key]);
-            }
-        }
     }
     
     protected async loadConfigData ()
